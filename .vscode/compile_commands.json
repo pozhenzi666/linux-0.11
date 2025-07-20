@@ -1,0 +1,971 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "init/main.o",
+      "init/main.c"
+    ],
+    "directory": "/root/code/linux-0.11",
+    "file": "/root/code/linux-0.11/init/main.c",
+    "output": "/root/code/linux-0.11/init/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "sched.o",
+      "sched.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel",
+    "file": "/root/code/linux-0.11/kernel/sched.c",
+    "output": "/root/code/linux-0.11/kernel/sched.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "traps.o",
+      "traps.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel",
+    "file": "/root/code/linux-0.11/kernel/traps.c",
+    "output": "/root/code/linux-0.11/kernel/traps.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "fork.o",
+      "fork.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel",
+    "file": "/root/code/linux-0.11/kernel/fork.c",
+    "output": "/root/code/linux-0.11/kernel/fork.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "panic.o",
+      "panic.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel",
+    "file": "/root/code/linux-0.11/kernel/panic.c",
+    "output": "/root/code/linux-0.11/kernel/panic.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "printk.o",
+      "printk.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel",
+    "file": "/root/code/linux-0.11/kernel/printk.c",
+    "output": "/root/code/linux-0.11/kernel/printk.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "vsprintf.o",
+      "vsprintf.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel",
+    "file": "/root/code/linux-0.11/kernel/vsprintf.c",
+    "output": "/root/code/linux-0.11/kernel/vsprintf.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "sys.o",
+      "sys.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel",
+    "file": "/root/code/linux-0.11/kernel/sys.c",
+    "output": "/root/code/linux-0.11/kernel/sys.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "exit.o",
+      "exit.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel",
+    "file": "/root/code/linux-0.11/kernel/exit.c",
+    "output": "/root/code/linux-0.11/kernel/exit.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "signal.o",
+      "signal.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel",
+    "file": "/root/code/linux-0.11/kernel/signal.c",
+    "output": "/root/code/linux-0.11/kernel/signal.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "mktime.o",
+      "mktime.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel",
+    "file": "/root/code/linux-0.11/kernel/mktime.c",
+    "output": "/root/code/linux-0.11/kernel/mktime.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "who.o",
+      "who.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel",
+    "file": "/root/code/linux-0.11/kernel/who.c",
+    "output": "/root/code/linux-0.11/kernel/who.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "memory.o",
+      "memory.c"
+    ],
+    "directory": "/root/code/linux-0.11/mm",
+    "file": "/root/code/linux-0.11/mm/memory.c",
+    "output": "/root/code/linux-0.11/mm/memory.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "open.o",
+      "open.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/open.c",
+    "output": "/root/code/linux-0.11/fs/open.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "read_write.o",
+      "read_write.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/read_write.c",
+    "output": "/root/code/linux-0.11/fs/read_write.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "inode.o",
+      "inode.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/inode.c",
+    "output": "/root/code/linux-0.11/fs/inode.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "file_table.o",
+      "file_table.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/file_table.c",
+    "output": "/root/code/linux-0.11/fs/file_table.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "buffer.o",
+      "buffer.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/buffer.c",
+    "output": "/root/code/linux-0.11/fs/buffer.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "super.o",
+      "super.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/super.c",
+    "output": "/root/code/linux-0.11/fs/super.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "block_dev.o",
+      "block_dev.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/block_dev.c",
+    "output": "/root/code/linux-0.11/fs/block_dev.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "char_dev.o",
+      "char_dev.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/char_dev.c",
+    "output": "/root/code/linux-0.11/fs/char_dev.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "file_dev.o",
+      "file_dev.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/file_dev.c",
+    "output": "/root/code/linux-0.11/fs/file_dev.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "stat.o",
+      "stat.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/stat.c",
+    "output": "/root/code/linux-0.11/fs/stat.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "exec.o",
+      "exec.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/exec.c",
+    "output": "/root/code/linux-0.11/fs/exec.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "pipe.o",
+      "pipe.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/pipe.c",
+    "output": "/root/code/linux-0.11/fs/pipe.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "namei.o",
+      "namei.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/namei.c",
+    "output": "/root/code/linux-0.11/fs/namei.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "bitmap.o",
+      "bitmap.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/bitmap.c",
+    "output": "/root/code/linux-0.11/fs/bitmap.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "fcntl.o",
+      "fcntl.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/fcntl.c",
+    "output": "/root/code/linux-0.11/fs/fcntl.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "ioctl.o",
+      "ioctl.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/ioctl.c",
+    "output": "/root/code/linux-0.11/fs/ioctl.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "truncate.o",
+      "truncate.c"
+    ],
+    "directory": "/root/code/linux-0.11/fs",
+    "file": "/root/code/linux-0.11/fs/truncate.c",
+    "output": "/root/code/linux-0.11/fs/truncate.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../../include",
+      "-c",
+      "-o",
+      "ll_rw_blk.o",
+      "ll_rw_blk.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel/blk_drv",
+    "file": "/root/code/linux-0.11/kernel/blk_drv/ll_rw_blk.c",
+    "output": "/root/code/linux-0.11/kernel/blk_drv/ll_rw_blk.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../../include",
+      "-c",
+      "-o",
+      "floppy.o",
+      "floppy.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel/blk_drv",
+    "file": "/root/code/linux-0.11/kernel/blk_drv/floppy.c",
+    "output": "/root/code/linux-0.11/kernel/blk_drv/floppy.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../../include",
+      "-c",
+      "-o",
+      "hd.o",
+      "hd.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel/blk_drv",
+    "file": "/root/code/linux-0.11/kernel/blk_drv/hd.c",
+    "output": "/root/code/linux-0.11/kernel/blk_drv/hd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../../include",
+      "-c",
+      "-o",
+      "ramdisk.o",
+      "ramdisk.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel/blk_drv",
+    "file": "/root/code/linux-0.11/kernel/blk_drv/ramdisk.c",
+    "output": "/root/code/linux-0.11/kernel/blk_drv/ramdisk.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../../include",
+      "-c",
+      "-o",
+      "tty_io.o",
+      "tty_io.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel/chr_drv",
+    "file": "/root/code/linux-0.11/kernel/chr_drv/tty_io.c",
+    "output": "/root/code/linux-0.11/kernel/chr_drv/tty_io.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../../include",
+      "-c",
+      "-o",
+      "console.o",
+      "console.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel/chr_drv",
+    "file": "/root/code/linux-0.11/kernel/chr_drv/console.c",
+    "output": "/root/code/linux-0.11/kernel/chr_drv/console.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../../include",
+      "-c",
+      "-o",
+      "serial.o",
+      "serial.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel/chr_drv",
+    "file": "/root/code/linux-0.11/kernel/chr_drv/serial.c",
+    "output": "/root/code/linux-0.11/kernel/chr_drv/serial.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../../include",
+      "-c",
+      "-o",
+      "tty_ioctl.o",
+      "tty_ioctl.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel/chr_drv",
+    "file": "/root/code/linux-0.11/kernel/chr_drv/tty_ioctl.c",
+    "output": "/root/code/linux-0.11/kernel/chr_drv/tty_ioctl.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../../include",
+      "-c",
+      "-o",
+      "math_emulate.o",
+      "math_emulate.c"
+    ],
+    "directory": "/root/code/linux-0.11/kernel/math",
+    "file": "/root/code/linux-0.11/kernel/math/math_emulate.c",
+    "output": "/root/code/linux-0.11/kernel/math/math_emulate.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "ctype.o",
+      "ctype.c"
+    ],
+    "directory": "/root/code/linux-0.11/lib",
+    "file": "/root/code/linux-0.11/lib/ctype.c",
+    "output": "/root/code/linux-0.11/lib/ctype.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "_exit.o",
+      "_exit.c"
+    ],
+    "directory": "/root/code/linux-0.11/lib",
+    "file": "/root/code/linux-0.11/lib/_exit.c",
+    "output": "/root/code/linux-0.11/lib/_exit.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "open.o",
+      "open.c"
+    ],
+    "directory": "/root/code/linux-0.11/lib",
+    "file": "/root/code/linux-0.11/lib/open.c",
+    "output": "/root/code/linux-0.11/lib/open.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "close.o",
+      "close.c"
+    ],
+    "directory": "/root/code/linux-0.11/lib",
+    "file": "/root/code/linux-0.11/lib/close.c",
+    "output": "/root/code/linux-0.11/lib/close.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "errno.o",
+      "errno.c"
+    ],
+    "directory": "/root/code/linux-0.11/lib",
+    "file": "/root/code/linux-0.11/lib/errno.c",
+    "output": "/root/code/linux-0.11/lib/errno.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "write.o",
+      "write.c"
+    ],
+    "directory": "/root/code/linux-0.11/lib",
+    "file": "/root/code/linux-0.11/lib/write.c",
+    "output": "/root/code/linux-0.11/lib/write.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "dup.o",
+      "dup.c"
+    ],
+    "directory": "/root/code/linux-0.11/lib",
+    "file": "/root/code/linux-0.11/lib/dup.c",
+    "output": "/root/code/linux-0.11/lib/dup.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "setsid.o",
+      "setsid.c"
+    ],
+    "directory": "/root/code/linux-0.11/lib",
+    "file": "/root/code/linux-0.11/lib/setsid.c",
+    "output": "/root/code/linux-0.11/lib/setsid.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "execve.o",
+      "execve.c"
+    ],
+    "directory": "/root/code/linux-0.11/lib",
+    "file": "/root/code/linux-0.11/lib/execve.c",
+    "output": "/root/code/linux-0.11/lib/execve.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "wait.o",
+      "wait.c"
+    ],
+    "directory": "/root/code/linux-0.11/lib",
+    "file": "/root/code/linux-0.11/lib/wait.c",
+    "output": "/root/code/linux-0.11/lib/wait.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "string.o",
+      "string.c"
+    ],
+    "directory": "/root/code/linux-0.11/lib",
+    "file": "/root/code/linux-0.11/lib/string.c",
+    "output": "/root/code/linux-0.11/lib/string.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-m32",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-fomit-frame-pointer",
+      "-fstrength-reduce",
+      "-I../include",
+      "-c",
+      "-o",
+      "malloc.o",
+      "malloc.c"
+    ],
+    "directory": "/root/code/linux-0.11/lib",
+    "file": "/root/code/linux-0.11/lib/malloc.c",
+    "output": "/root/code/linux-0.11/lib/malloc.o"
+  }
+]

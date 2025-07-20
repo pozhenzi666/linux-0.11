@@ -1,0 +1,14 @@
+{
+    "clangd.arguments": [
+        "--compile-commands-dir=.vscode",
+        "-j=8",
+        "--completion-style=detailed",
+        "--header-insertion=iwyu",
+        "--cross-file-rename",
+        "--enable-config",
+        "--fallback-style=WebKit",
+        "--pretty",
+        "--clang-tidy",
+        "--query-driver=clang++"
+    ]
+}
