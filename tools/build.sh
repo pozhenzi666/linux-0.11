@@ -13,7 +13,7 @@ root_dev=$5
 # Changes from 0x20000 to 0x30000 by tigercn to avoid oversized code.
 SYS_SIZE=$((0x3000*16))
 
-# set the default "device" file for root image file
+# set the default "device" file for root image file，默认主设备号3(表示硬盘)，次设备号1
 if [ -z "$root_dev" ]; then
 	DEFAULT_MAJOR_ROOT=3
 	DEFAULT_MINOR_ROOT=1

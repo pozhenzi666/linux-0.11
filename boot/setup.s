@@ -39,7 +39,7 @@ _start:
 #
 	mov $0x03, %ah
 	xor %bh, %bh
-	int $0x10
+	int $0x10 # 读取光标位置
 
 	mov $29, %cx
 	mov $0x000b,%bx
@@ -181,10 +181,10 @@ _start:
 # Check that there IS a hd1 :-)
 
 	mov	$0x01500, %ax
-	mov	$0x81, %dl
+	mov	$0x81, %dl # DL=驱动器，80H~FFH表示硬盘，81H表示第二个硬盘
 	int	$0x13
-	jc	no_disk1
-	cmp	$3, %ah
+	jc	no_disk1 # CF=1 操作失败，跳到no_disk1
+	cmp	$3, %ah # AH=03H表示硬盘并且CX:DX=512字节的扇区数
 	je	is_disk1
 no_disk1:
 	mov	$INITSEG, %ax
@@ -193,7 +193,7 @@ no_disk1:
 	mov	$0x10, %cx
 	mov	$0x00, %ax
 	rep
-	stosb
+	stosb # AL -> ES:DI，每次移动1字节
 is_disk1:
 
 # now we want to move to protected mode ...
@@ -212,9 +212,9 @@ do_move:
 	mov	%ax, %ds	# source segment
 	sub	%di, %di
 	sub	%si, %si
-	mov 	$0x8000, %cx
+	mov 	$0x8000, %cx # 重复次数
 	rep
-	movsw
+	movsw # DS:SI -> ES:DI，每次移动2字节
 	jmp	do_move
 
 # then we load the segment descriptors
@@ -226,7 +226,7 @@ end_move:
 	lgdt	gdt_48		# load gdt with whatever appropriate
 
 # that was painless, now we enable A20
-
+# 下面几行被注释的代码是传统开启A20的方式，从237行开始的三行是当前方法
 	#call	empty_8042	# 8042 is the keyboard controller
 	#mov	$0xD1, %al	# command write
 	#out	%al, $0x64
@@ -234,7 +234,7 @@ end_move:
 	#mov	$0xDF, %al	# A20 on
 	#out	%al, $0x60
 	#call	empty_8042
-	inb     $0x92, %al	# open A20 line(Fast Gate A20).
+	inb     $0x92, %al	# open A20 line(Fast Gate A20). # 打开A20，突破1M访问限制
 	orb     $0b00000010, %al
 	outb    %al, $0x92
 
@@ -246,25 +246,25 @@ end_move:
 # which is used for the internal hardware interrupts as well. We just
 # have to reprogram the 8259's, and it isn't fun.
 
-	mov	$0x11, %al		# initialization sequence(ICW1)
+	mov	$0x11, %al		# initialization sequence(ICW1) # 0x11表示初始化命令开始
 					# ICW4 needed(1),CASCADE mode,Level-triggered
-	out	%al, $0x20		# send it to 8259A-1
-	.word	0x00eb,0x00eb		# jmp $+2, jmp $+2
-	out	%al, $0xA0		# and to 8259A-2
+	out	%al, $0x20		# send it to 8259A-1 # 将初始化命令发送到8259A主芯片(一共有两个)
+	.word	0x00eb,0x00eb		# jmp $+2, jmp $+2 # 0x00eb是直接近跳转指令，这两条指令无实际作用，仅作为延时，等待out %al $0x20
+	out	%al, $0xA0		# and to 8259A-2 # 将初始化命令发送到8259A从芯片
 	.word	0x00eb,0x00eb
 	mov	$0x20, %al		# start of hardware int's (0x20)(ICW2)
-	out	%al, $0x21		# from 0x20-0x27
+	out	%al, $0x21		# from 0x20-0x27 # 0x21命令用来设置主芯片起始中断号，这里设置为0x20，即中断范围0x20~0x27
 	.word	0x00eb,0x00eb
 	mov	$0x28, %al		# start of hardware int's 2 (0x28)
-	out	%al, $0xA1		# from 0x28-0x2F
+	out	%al, $0xA1		# from 0x28-0x2F # 设置从芯片中断号范围为0x28~0x3F
 	.word	0x00eb,0x00eb		#               IR 7654 3210
-	mov	$0x04, %al		# 8259-1 is master(0000 0100) --\
+	mov	$0x04, %al		# 8259-1 is master(0000 0100) --\ # 设置8259主芯片的IRQ2连接到从芯片，0x04=0100b，也就是IRQ2
 	out	%al, $0x21		#				|
 	.word	0x00eb,0x00eb		#			 INT	/
-	mov	$0x02, %al		# 8259-2 is slave(       010 --> 2)
+	mov	$0x02, %al		# 8259-2 is slave(       010 --> 2) # 设置从芯片接到主片的IRQ2，也就是主片IRQ2中断触发时从片进行响应
 	out	%al, $0xA1
 	.word	0x00eb,0x00eb
-	mov	$0x01, %al		# 8086 mode for both
+	mov	$0x01, %al		# 8086 mode for both # 设置为8086模式
 	out	%al, $0x21
 	.word	0x00eb,0x00eb
 	out	%al, $0xA1
@@ -287,7 +287,7 @@ end_move:
 	#lmsw	%ax		# This is it!
 	mov	%cr0, %eax	# get machine status(cr0|MSW)	
 	bts	$0, %eax	# turn on the PE-bit 
-	mov	%eax, %cr0	# protection enabled
+	mov	%eax, %cr0	# protection enabled # 从这里开始进入到保护模式了
 				
 				# segment-descriptor        (INDEX:TI:RPL)
 	.equ	sel_cs0, 0x0008 # select for code segment 0 (  001:0 :00) 
@@ -296,11 +296,11 @@ end_move:
 # This routine checks that the keyboard command queue is empty
 # No timeout is used - if this hangs there is something wrong with
 # the machine, and we probably couldn't proceed anyway.
-empty_8042:
-	.word	0x00eb,0x00eb
-	in	$0x64, %al	# 8042 status port
-	test	$2, %al		# is input buffer full?
-	jnz	empty_8042	# yes - loop
+empty_8042: # intel 8042键盘控制器有4个8位的寄存器；输入缓冲器/输出缓冲器(这两个是数据寄存器)、状态寄存器、控制寄存器
+	.word	0x00eb,0x00eb # 这些寄存器使用2个端口控制：0x60(数据端口)、0x64(命令和状态端口)
+	in	$0x64, %al	# 8042 status port # 读状态寄存器
+	test	$2, %al		# is input buffer full? # test指令将两个操作数按位与
+	jnz	empty_8042	# yes - loop # 与结果不为0，说明bit1=1，说明输入缓冲区满，因此循环等待
 	ret
 
 gdt:
@@ -320,7 +320,7 @@ idt_48:
 	.word	0			# idt limit=0
 	.word	0,0			# idt base=0L
 
-gdt_48:
+gdt_48: # 注意这6字节是小端模式存储，对于gdt基地址来说，512+gdt表示低16位，0x9表示高16位，最后组合起来地址就是0x9000+512+gdt
 	.word	0x800			# gdt limit=2048, 256 GDT entries
 	.word   512+gdt, 0x9		# gdt base = 0X9xxxx, 
 	# 512+gdt is the real gdt after setup is moved to 0x9020 * 0x10
