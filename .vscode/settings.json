@@ -10,5 +10,6 @@
         "--pretty",
         "--clang-tidy",
         "--query-driver=clang++"
-    ]
+    ],
+    "makefile.configureOnOpen": false
 }
