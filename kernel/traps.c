@@ -202,7 +202,7 @@ void trap_init(void)
 	for (i=17;i<48;i++)
 		set_trap_gate(i,&reserved);
 	set_trap_gate(45,&irq13);
-	outb_p(inb_p(0x21)&0xfb,0x21);
-	outb(inb_p(0xA1)&0xdf,0xA1);
+	outb_p(inb_p(0x21)&0xfb,0x21); // 允许主8259A的IRQ2中断请求(其他7个中断请求被屏蔽)，0xFB表示IRQ2(连接从8259A芯片)
+	outb(inb_p(0xA1)&0xdf,0xA1);   // 允许从8259A的IRQ13中断请求(其他7个中断请求被屏蔽)，0xDF表示IRQ13(协处理器中断)
 	set_trap_gate(39,&parallel_interrupt);
 }

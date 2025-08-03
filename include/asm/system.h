@@ -37,7 +37,7 @@ __asm__ ("movw %%dx,%%ax\n\t" \
 	_set_gate(&idt[n],15,0,addr)
 
 #define set_system_gate(n,addr) \
-	_set_gate(&idt[n],15,3,addr)
+	_set_gate(&idt[n],15,3,addr) // 也属于陷阱门，但可以被所有特权级调用
 
 #define _set_seg_desc(gate_addr,type,dpl,base,limit) {\
 	*(gate_addr) = ((base) & 0xff000000) | \

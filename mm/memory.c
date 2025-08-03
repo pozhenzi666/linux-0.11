@@ -403,12 +403,12 @@ void mem_init(long start_mem, long end_mem)
 
 	HIGH_MEMORY = end_mem;
 	for (i=0 ; i<PAGING_PAGES ; i++)
-		mem_map[i] = USED;
+		mem_map[i] = USED; // 先将所有页标记为已使用
 	i = MAP_NR(start_mem);
 	end_mem -= start_mem;
 	end_mem >>= 12;
 	while (end_mem-->0)
-		mem_map[i++]=0;
+		mem_map[i++]=0; // 然后将主内存区域标记为空闲（剩余高速缓冲和虚拟盘区域仍处于使用状态）
 }
 
 void calc_mem(void)
