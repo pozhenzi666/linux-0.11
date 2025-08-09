@@ -33,7 +33,7 @@ struct request {
 };
 
 /*
- * This is used in the elevator algorithm: Note that
+ * This is used in the elevator algorithm: Note that 读操作优先级高于写操作，设备号小的优先，扇区号小的优先
  * reads always go before writes. This is natural: reads
  * are much more time-critical than writes.
  */

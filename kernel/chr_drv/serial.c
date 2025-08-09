@@ -33,14 +33,14 @@ static void init(int port)
 	outb_p(0x0d,port+1);	/* enable all intrs but writes */
 	(void)inb(port);	/* read data port to reset things (?) */
 }
-
+// 初始化后，串口1和串口2就可以接收中断，并调用rs1_interrupt和rs2_interrupt处理函数
 void rs_init(void)
 {
-	set_intr_gate(0x24,rs1_interrupt);
-	set_intr_gate(0x23,rs2_interrupt);
-	init(tty_table[1].read_q.data);
-	init(tty_table[2].read_q.data);
-	outb(inb_p(0x21)&0xE7,0x21);
+	set_intr_gate(0x24,rs1_interrupt); // 0x24也就是IRQ4(外部硬件中断号的范围是0x20~0x2F)
+	set_intr_gate(0x23,rs2_interrupt); // 0x23也就是IRQ3，这里设置它的中断处理函数为rs2_interrupt
+	init(tty_table[1].read_q.data); // 初始化串口1
+	init(tty_table[2].read_q.data); // 初始化串口2
+	outb(inb_p(0x21)&0xE7,0x21); // 允许主8259A的IRQ3和IRQ4中断，0xE7即对应IRQ3和IRQ4
 }
 
 /*
