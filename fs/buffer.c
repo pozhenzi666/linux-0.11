@@ -26,11 +26,11 @@
 #include <asm/system.h>
 #include <asm/io.h>
 
-extern int end;
+extern int end; /// end由ld在链接时设置，表示代码段/数据段/bss段末尾，可以通过观察System.map确认这一点
 extern void put_super(int);
 extern void invalidate_inodes(int);
 
-struct buffer_head * start_buffer = (struct buffer_head *) &end;
+struct buffer_head * start_buffer = (struct buffer_head *) &end; // 缓冲区起始位置紧接在system(代码段/数据段/bss段)之后
 struct buffer_head * hash_table[NR_HASH];
 static struct buffer_head * free_list;
 static struct task_struct * buffer_wait = NULL;
@@ -372,7 +372,7 @@ void buffer_init(long buffer_end)
 		h->b_next_free = h+1;
 		h++;
 		NR_BUFFERS++;
-		if (b == (void *) 0x100000)
+		if (b == (void *) 0x100000) // 跳过显存和BIOS ROM区域，避免该内存区被破坏
 			b = (void *) 0xA0000;
 	}
 	h--;

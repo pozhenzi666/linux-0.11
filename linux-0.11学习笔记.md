@@ -209,5 +209,32 @@ tty设备也属于字符设备，因为较特殊，单独初始化。它分为�
 4. 设置时钟中断（IRQ0）的中断向量为timer_interrupt，并且使能时钟中断，后面就可以依赖此中断进行任务调度等操作了。
 5. 设置0x80中断的向量为system_call，也就是系统调用 
 
-## 缓存初始化——buffer_init
+## 高速缓冲初始化——buffer_init
+
+1. 设置buffer_head：以.bss段之后首个地址end作为缓冲区起始地址start_buffer，也就是buffer_head
+
+   注意end这个地址是ld链接器设置的，在linux-0.11代码中LD链接时由于未通过-T指定自定义链接脚本，因此它会使用隐式链接脚本（可以通过ld --verbose查看），在隐式链接脚本中有类似如下代码，设置end为.bss段后起始地址；
+
+```Makefile
+.bss : { *(.bss) }
+end = .; 
+```
+
+​	end同样可以在编译出的System.map找到，会发现其位置正是.map末尾
+
+2. 设置buffer_end：如果整个扩展内存超过12M，则buffer_head=4M；否则如果超过6M，则buffer_head=2M；否则不足6M，则buffer_end=640K
+
+3. 从buffer_end开始递减，每1K作为一个buffer块，设置其对应的管理结构buffer头，每个buffer头36字节，从buffer_head开始递增
+
+![image-20250810211611042](https://github.com/pozhenzi666/assert/blob/main/images/20250810211611164.png)
+
+最终得到下面这样一个buffer链表
+
+![image-20250810211900308](https://github.com/pozhenzi666/assert/blob/main/images/20250810211900425.png)
+
+注意，在buffer缓冲区中存在显存和BIOS ROM区，在设置buffer块/buffer头的时候，会对该地址进行检测并跳过他，保证此区域不被破坏
+
+![image-20250810212348882](https://github.com/pozhenzi666/assert/blob/main/images/20250810212348992.png)
+
+## 硬盘初始化——hd_init
 
