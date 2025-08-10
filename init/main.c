@@ -72,7 +72,7 @@ extern long startup_time;
 outb_p(0x80|addr,0x70); \
 inb_p(0x71); \
 })
-
+// BDC码每4位表示一个十进制数，如十进制29用BCD码表示为0010 1001
 #define BCD_TO_BIN(val) ((val)=((val)&15) + ((val)>>4)*10)
 
 static void time_init(void)
