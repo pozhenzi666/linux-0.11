@@ -162,4 +162,35 @@ void blk_dev_init(void)
 
 ## tty终端初始化-tty_init
 
-tty设备也属于字符设备，因为较特殊，单独初始化。
+tty设备也属于字符设备，因为较特殊，单独初始化。它分为两部分rs_init和con_init。
+
+### rs_init——串口初始化
+
+1. 设置IRQ3、IRQ4的中断处理函数为rs1_interrupt、rs2_interrupt
+2. 初始化串口1、串口2
+3. 打开IRQ3、IRQ4中断，自此可以接收这两个中断，并请将中断请求交给rs1_interrupt、rs2_interrupt处理。
+
+### con_init——终端屏幕初始化
+
+1. 根据setup.s中获取的机器信息，设置终端屏幕显示相关的全局变量，如每行显示字节数、当前页面、起始内存地址等；对于内存地址来说，单色EGA范围`0xb0000~0xb8000`，单色MDA范围`0xb0000~0xb2000`，彩色EGA范围`0xb8000~0xbc000`，彩色CGA范围`0xb8000~0xba000`，在屏幕上显示字符即往这块内存写入字符，也就是下面的显存位置
+
+![image-20250810081725458](https://github.com/pozhenzi666/assert/blob/main/images/20250810081725570.png)
+
+2. 设置键盘中断向量，中断号0x21（IRQ1），中断处理函数keyboard_interrupt；
+3. 设置键盘中断后通过`outb_p(inb_p(0x21)&0xfd,0x21)`打开该中断
+4. 最后控制8255A芯片0x61端口，产生一个蜂鸣器声音
+
+![image-20250810112520972](https://github.com/pozhenzi666/assert/blob/main/images/20250810112521174.png)
+
+## 日期时间初始化-time_init
+
+1. 从CMOS中读日期、时间信息，读取内容如下几个偏移位置；
+
+![image-20250810121554587](https://github.com/pozhenzi666/assert/blob/main/images/20250810121554704.png)
+
+2. 将上一步读取BCD码日期时间信息转成十进制，然后转出unix时间戳（1970/1/1开始至今的秒数）存储到全局变量startup_time
+
+注：BCD码是4位二进制表示1位十进制，如十进制的29对应的BCD码为0010 1001
+
+## 调度初始化——sched_init
+
