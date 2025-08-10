@@ -614,17 +614,17 @@ void con_write(struct tty_struct * tty)
  * Reads the information preserved by setup.s to determine the current display
  * type and sets everything accordingly.
  */
-void con_init(void)
+void con_init(void) /// 终端屏幕初始化
 {
 	register unsigned char a;
 	char *display_desc = "????";
 	char *display_ptr;
 
-	video_num_columns = ORIG_VIDEO_COLS;
-	video_size_row = video_num_columns * 2;
-	video_num_lines = ORIG_VIDEO_LINES;
-	video_page = ORIG_VIDEO_PAGE;
-	video_erase_char = 0x0720;
+	video_num_columns = ORIG_VIDEO_COLS; /// 0x90007，字符列数
+	video_size_row = video_num_columns * 2; /// 每行字节数=字符列数*2，每个字符占2个字节（另一个字节表示颜色）
+	video_num_lines = ORIG_VIDEO_LINES; /// 0x90008，字符行数
+	video_page = ORIG_VIDEO_PAGE; /// 0x90004，当前显示页面
+	video_erase_char = 0x0720; /// 0x07表示白色，0x20表示空格
 	
 	if (ORIG_VIDEO_MODE == 7)			/* Is this a monochrome display? */
 	{
@@ -682,7 +682,7 @@ void con_init(void)
 	gotoxy(ORIG_X,ORIG_Y);
 	set_trap_gate(0x21,&keyboard_interrupt);
 	outb_p(inb_p(0x21)&0xfd,0x21);
-	a=inb_p(0x61);
+	a=inb_p(0x61); // 8255A芯片使用参考: https://www.bilibili.com/video/BV1hj6tYTEZT/?spm_id_from=333.337.search-card.all.click&vd_source=3cb88988fa607bebfeca6a670183bd87
 	outb_p(a|0x80,0x61);
 	outb(a,0x61);
 }
