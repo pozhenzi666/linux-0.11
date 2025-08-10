@@ -224,7 +224,7 @@ end = .;
 
 2. 设置buffer_end：如果整个扩展内存超过12M，则buffer_head=4M；否则如果超过6M，则buffer_head=2M；否则不足6M，则buffer_end=640K
 
-3. 从buffer_end开始递减，每1K作为一个buffer块，设置其对应的管理结构buffer头，每个buffer头36字节，从buffer_head开始递增
+3. 从buffer_end开始递减，每1K（跟逻辑块大小一致）作为一个buffer块，设置其对应的管理结构buffer头，每个buffer头36字节，从buffer_head开始递增
 
 ![image-20250810211611042](https://github.com/pozhenzi666/assert/blob/main/images/20250810211611164.png)
 
@@ -237,4 +237,26 @@ end = .;
 ![image-20250810212348882](https://github.com/pozhenzi666/assert/blob/main/images/20250810212348992.png)
 
 ## 硬盘初始化——hd_init
+
+1. 设置硬盘设备请求函数request_fn
+
+对硬盘/软盘等块设备读写时都会向缓冲区管理程序提出申请，而程序的进程则进入睡眠等待状态。缓冲区管理程序首先在缓冲区中寻找以前是否已经读取过这块数据。如果缓冲区中已经有了，就直接将对应的缓冲区块头指针返回给程序并唤醒该程序进程。若缓冲区中不存在所要求的数据块，则缓冲管理程序就会调用本章中的低级块读写函数1l_rw_block)，向相应的块设备驱动程序发出一个读数据块的操作请求。该函数就会为此创建一个请求结构项，并插入请求队列中。最终电梯算法调度执行该块设备请求，并使用request_fn进行数据读写操作。
+
+请求函数通过宏*MAJOR_NR*进行隔离，由于“构建启动->buildsh”阶段，我们设置了MAJOR_NR=3，因此request_fn最终被设置为do_hd_request
+
+![image-20250810214336777](https://github.com/pozhenzi666/assert/blob/main/images/20250810214336900.png)
+
+2. 设置硬盘中断(IRQ14)中断处理函数为hd_interrupt，并且把IRQ2中断使能（IRQ2链接到从8295A中断控制器，而IRQ14正好在8295A从控制器上），最好把IRQ14使能
+
+## 软盘初始化——floppy_init
+
+1. 设置软盘设备请求函数request_fn
+
+注意，本文件中MAJOR_NR设置为2，覆盖了build.sh中设置的3，因此DEVICE_REQUEST将指向do_fd_request并设置到blk_dev数组中
+
+![image-20250810215633594](https://github.com/pozhenzi666/assert/blob/main/images/20250810215633714.png)
+
+2. 设置软盘中断IRQ6处理函数floppy_interrupt，然后使能该中断
+
+## 切到用户态——move_to_user_mode
 

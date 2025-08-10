@@ -344,6 +344,6 @@ void hd_init(void)
 {
 	blk_dev[MAJOR_NR].request_fn = DEVICE_REQUEST;
 	set_intr_gate(0x2E,&hd_interrupt);
-	outb_p(inb_p(0x21)&0xfb,0x21);
+	outb_p(inb_p(0x21)&0xfb,0x21); // 由于硬盘中断IRQ14位于从8295A控制器，从控制器级联主控制的IRQ2，因此先要使能IRQ2
 	outb(inb_p(0xA1)&0xbf,0xA1);
 }
