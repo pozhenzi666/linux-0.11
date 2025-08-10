@@ -2,7 +2,7 @@
 #define _SCHED_H
 
 #define NR_TASKS 64
-#define HZ 100
+#define HZ 100 // 系统工作频率设置为100hz，即10ms一个中断
 
 #define FIRST_TASK task[0]
 #define LAST_TASK task[NR_TASKS-1]
