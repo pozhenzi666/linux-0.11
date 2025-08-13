@@ -74,33 +74,33 @@ bad_sys_call:
 	iret
 .align 2
 reschedule:
-	pushl $ret_from_sys_call
-	jmp schedule
+	pushl $ret_from_sys_call # 由于schedule定义在sched.c中，他是一个c函数，需要遵循c语言的函数调用规则，所以需要将ret_from_sys_call标签的地址压入栈中
+	jmp schedule # jmp指令是无条件跳转，不会报错返回地址，而上一步将返回地址push压栈，组合起来相当于call schedule，保证原来系统调用返回值等信息还在
 .align 2
 system_call:
 	cmpl $nr_system_calls-1,%eax
 	ja bad_sys_call
-	push %ds
+	push %ds # 从这行开始，将ds/es/fs/edx/ecx/ebx压栈，这些在后面copy_process中会用到
 	push %es
 	push %fs
 	pushl %edx
-	pushl %ecx		# push %ebx,%ecx,%edx as parameters
+	pushl %ecx		# push %ebx,%ecx,%edx as parameters 最多支持三个参数
 	pushl %ebx		# to the system call
 	movl $0x10,%edx		# set up ds,es to kernel space
-	mov %dx,%ds
+	mov %dx,%ds # 进入内核态后，ds/es寄存器指向内核数据段
 	mov %dx,%es
 	movl $0x17,%edx		# fs points to local data space
-	mov %dx,%fs
+	mov %dx,%fs # 进入内核态后，fs寄存器指向进程数据段
 	call *sys_call_table(,%eax,4)
-	pushl %eax
-	movl current,%eax
-	cmpl $0,state(%eax)		# state
-	jne reschedule
-	cmpl $0,counter(%eax)		# counter
-	je reschedule
+	pushl %eax # eax: 保存系统调用返回值
+	movl current,%eax # current: sched.c中定义，指向task_struct结构体，表示当前任务（进程）数据结构
+	cmpl $0,state(%eax)		# state:由于eax寄存器已保存task_struct结构体地址，所以state(%eax)表示task_struct结构体中的state字段
+	jne reschedule # 0表示进程处于运行状态，如果为0，则跳转到reschedule标签，重新调度进程
+	cmpl $0,counter(%eax)   # counter:task_struct中字段，表示进程的运行时间片
+	je reschedule # 如果counter为0（表示进程运行时间片已用完），则跳转到reschedule标签，重新调度进程
 ret_from_sys_call:
 	movl current,%eax		# task[0] cannot have signals
-	cmpl task,%eax
+	cmpl task,%eax # task[0]是idle进程，不能有信号，这里判断是否是idle进程，是的话直接跳转到3f标签弹出栈中保存的系统调用返回值等信息
 	je 3f
 	cmpw $0x0f,CS(%esp)		# was old code segment supervisor ?
 	jne 3f
@@ -206,11 +206,11 @@ sys_execve:
 
 .align 2
 sys_fork:
-	call find_empty_process
+	call find_empty_process # 找一个空闲进程槽位，并返回进程号，如果失败，则返回-11
 	testl %eax,%eax
-	js 1f
-	push %gs
-	pushl %esi
+	js 1f # 如果eax寄存器为负数，则跳转到1f标签，直接返回
+	push %gs # 开始压入gs/esi/edi/ebp/eax寄存器，加上system_call中压入的ds/es/fs/edx/ecx/ebx，
+	pushl %esi # 还有Int 0x80时自动压入的eip/cs/eflags/esp/ss寄存器，一起作为copy_process的参数
 	pushl %edi
 	pushl %ebp
 	pushl %eax

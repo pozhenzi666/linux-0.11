@@ -270,7 +270,71 @@ end = .;
 
 ![image-20250810234452695](https://github.com/pozhenzi666/assert/blob/main/images/20250810234452800.png)
 
-## fork
+## 进程复制——fork
 
+### system_call实现原理
 
+1. fork实现就是int 0x80中断（syscall0也就是0个入参的系统调用，此外还有syscall1/syscall2...），而在前面调度初始化sched_init中，设置过0x80中断的处理函数为system_call
+
+```c
+#define __NR_fork	2
+#define _syscall0(type,name) \
+  type name(void) \
+{ \
+long __res; \
+__asm__ volatile ("int $0x80" \
+	: "=a" (__res) \
+	: "0" (__NR_##name)); \
+if (__res >= 0) \
+	return (type) __res; \
+errno = -__res; \
+return -1; \
+}
+    
+static inline _syscall0(int,fork)
+```
+
+2. system_call的实现在system_call.s中，他利用第一步传入的__NR_fork=2作为下表，从sys_call_table中找到具体实现即sys_fork，然后使用call指令调用该函数。
+
+- 首先，call指令执行时，CPU会将SS:ESP、EFLAGS、CS:EIP这几个寄存器信息自动压栈，不需要软件介入，这些信息在iret的时候会再恢复：
+
+![image-20250812003834606](https://github.com/pozhenzi666/assert/blob/main/images/20250812003834726.png)
+
+-  然后内核将ds/es/fs这几个段寄存器保护压栈，再将edx/ecx/ebx这三个寄存器信息压栈（其中存有系统调用参数，也就是说当前系统支持的系统调用最多3个参数）
+- 接着执行call指令，运行sys_call_talbe中找到的系统调用实现，这里是sys_fork。
+- 执行完之后函数返回值保存在eax寄存器，需要压栈
+- 然后判断是否需要重新调度：如任务不再处于running状态，或者时间片已经用完，那么需要重新调度切到其他任务。否则从内核态回到用户态，仍在当前任务。
+
+### reschedule
+
+代码只有两行，首先将返回地址压栈，这是因为下面一行代码jmp是无条件跳转，它不会保存返回地址，而schedule函数在sched.c中定义，是一个c语言函数，需要遵循C函数调用约定；这样的话，下面两行就相当于call schedule了（call指令会自动将返回地址压栈）
+
+```asm
+pushl $ret_from_sys_call
+jmp schedule
+```
+
+而这里选择ret_from_sys_call作为返回地址，则是为了保证切任务后，原来任务的返回值等信息仍能够正确返回。
+
+> 说明：我们不用担心切任务后原来保存的栈信息被踩，因为每个人物都有独立的栈和内存空间，在switch_to切任务的时候会将他们妥善保护好。
+
+### ret_from_sys_call
+
+在系统调用结束前，或者schedule执行后，都会调用ret_from_sys_call来恢复栈信息。首先会判断是否有信号需要处理：
+
+1. 如果当前任务是task0，说明一定不会有信号，那么直接执行**弹栈流程**：弹出eax/ebx/ecx/edx/fs/es/ds到寄存器，再iret弹出cs:eip、efalgs、ss:esp等。
+2. 然后判断当前任务是否为内核任务（通过RPL判断），如果是的话也是直接执行**弹栈流程**；
+3. 否则进行信号处理
+
+### sys_fork
+
+1. find_empty_process: 从task数组中，找一个空闲的task
+2. 参数压栈：将gs/esi/edi/ebp/eax寄存器压栈，加上system_call中压入的ds/es/fs/edx/ecx/ebx，再加上int 0x80中断时cpu自动压入的eip/cs/eflags/esp/ss寄存器，一起作为等会儿copy_process的入参
+3. 执行copy_process，他将新申请一页存储current任务的task_struct信息，然后设置其中的各字段
+4. 接下来是关键点：把新任务的tss/ldt加到gdt表中的tss/ldt去，设置好之后新的task就可以等待被调度了。等到下次调度时，由于新任务的eip跟原来任务一样，因此也从同样位置执行。
+5. 原来的任务在copy_process后继续执行
+
+> 说明：sys_fork调用一次，返回两次的关键就在于新创建的task关键内容与原任务task_struct一致，尤其是tss信息；这样的话等到新任务被调度时，就从原任务指定的位置继续执行，看起来就像是返回两次一样。实际是两次是在不同的调度周期，只不过eip一样罢了。
+
+## 初始化——init
 

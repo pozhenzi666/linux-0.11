@@ -139,7 +139,7 @@ void main(void)		/* This really IS void, no error here. */
 	sti();
 	move_to_user_mode();
 	if (!fork()) {		/* we count on this going ok */
-		init();
+		init(); // fork子进程执行init函数
 	}
 /*
  *   NOTE!!   For any other task 'pause()' would mean we have to get a
