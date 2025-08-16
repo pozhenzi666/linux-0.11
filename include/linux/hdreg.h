@@ -49,7 +49,7 @@
 #define ECC_ERR		0x40	/* ? */
 #define	BBD_ERR		0x80	/* ? */
 
-struct partition {
+struct partition { /// 分区表结构体，用于存储分区信息
 	unsigned char boot_ind;		/* 0x80 - active (unused) */
 	unsigned char head;		/* ? */
 	unsigned char sector;		/* ? */

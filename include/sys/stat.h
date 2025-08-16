@@ -29,8 +29,8 @@ struct stat {
 
 #define S_ISREG(m)	(((m) & S_IFMT) == S_IFREG)
 #define S_ISDIR(m)	(((m) & S_IFMT) == S_IFDIR)
-#define S_ISCHR(m)	(((m) & S_IFMT) == S_IFCHR)
-#define S_ISBLK(m)	(((m) & S_IFMT) == S_IFBLK)
+#define S_ISCHR(m)	(((m) & S_IFMT) == S_IFCHR) /// 判断是否为字符设备
+#define S_ISBLK(m)	(((m) & S_IFMT) == S_IFBLK) /// 判断是否为块设备
 #define S_ISFIFO(m)	(((m) & S_IFMT) == S_IFIFO)
 
 #define S_IRWXU 00700

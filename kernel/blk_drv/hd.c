@@ -78,9 +78,9 @@ int sys_setup(void * BIOS)
 
 	if (!callable)
 		return -1;
-	callable = 0;
-#ifndef HD_TYPE
-	for (drive=0 ; drive<2 ; drive++) {
+	callable = 0; /// 通过callable变量，保证sys_setup函数只执行一次
+#ifndef HD_TYPE /// 如果定义了HD_TYPE，会通过宏写死cyl/head/wpcom/lzone/sect等参数，否则会从BIOS中读取这些信息，当前没有定义HD_TYPE，所以会从BIOS中读取这些信息
+	for (drive=0 ; drive<2 ; drive++) { /// BIOS表中存储了两个硬盘的信息，所以需要循环两次
 		hd_info[drive].cyl = *(unsigned short *) BIOS;
 		hd_info[drive].head = *(unsigned char *) (2+BIOS);
 		hd_info[drive].wpcom = *(unsigned short *) (5+BIOS);
@@ -89,7 +89,7 @@ int sys_setup(void * BIOS)
 		hd_info[drive].sect = *(unsigned char *) (14+BIOS);
 		BIOS += 16;
 	}
-	if (hd_info[1].cyl)
+	if (hd_info[1].cyl) /// 检查第二个硬盘是否有被赋值，如果被赋值，则表示有两个硬盘
 		NR_HD=2;
 	else
 		NR_HD=1;
@@ -134,17 +134,17 @@ int sys_setup(void * BIOS)
 		hd[i*5].nr_sects = 0;
 	}
 	for (drive=0 ; drive<NR_HD ; drive++) {
-		if (!(bh = bread(0x300 + drive*5,0))) {
+		if (!(bh = bread(0x300 + drive*5,0))) { /// 0x300+i*5，表示整个第i个硬盘；0x300+i*5+n，表示第i个硬盘的第n个分区
 			printk("Unable to read partition table of drive %d\n\r",
 				drive);
 			panic("");
 		}
-		if (bh->b_data[510] != 0x55 || (unsigned char)
+		if (bh->b_data[510] != 0x55 || (unsigned char) /// 检查分区表的结束标志（启动扇区结束标志）
 		    bh->b_data[511] != 0xAA) {
 			printk("Bad partition table on drive %d\n\r",drive);
 			panic("");
 		}
-		p = 0x1BE + (void *)bh->b_data;
+		p = 0x1BE + (void *)bh->b_data; /// 分区表存在硬盘0柱面0头第1个扇区的0x1BE-0x1FD处
 		for (i=1;i<5;i++,p++) {
 			hd[i+5*drive].start_sect = p->start_sect;
 			hd[i+5*drive].nr_sects = p->nr_sects;

@@ -173,23 +173,23 @@ void init(void)
 	int pid,i;
 
 	setup((void *) &drive_info);
-	(void) open("/dev/tty0",O_RDWR,0);
-	(void) dup(0);
-	(void) dup(0);
+	(void) open("/dev/tty0",O_RDWR,0); /// 打开tty0设备，返回文件描述符，这是第一次打开文件，因此分配fd=0（标准输入）
+	(void) dup(0); /// 复制文件描述符，产生fd=1，stdout标准输出设备
+	(void) dup(0); /// 复制文件描述符，产生fd=2，stderr标准错误设备
 	printf("%d buffers = %d bytes buffer space\n\r",NR_BUFFERS,
 		NR_BUFFERS*BLOCK_SIZE);
 	printf("Free mem: %d bytes\n\r",memory_end-main_memory_start);
 	if (!(pid=fork())) {
-		close(0);
-		if (open("/etc/rc",O_RDONLY,0))
+		close(0); /// 子进程关闭文件描述符0，即关闭tty0设备
+		if (open("/etc/rc",O_RDONLY,0)) /// 刚才关闭了tty0设备，这里重新打开将分配fd=0，即标准输入，也就是以/etc/rc文件作为子进程的标准输入，他是系统的启动脚本
 			_exit(1);
-		execve("/bin/sh",argv_rc,envp_rc);
+		execve("/bin/sh",argv_rc,envp_rc); /// 子进程执行/bin/sh程序，即进入到shell窗口
 		_exit(2);
 	}
 	if (pid>0)
-		while (pid != wait(&i))
+		while (pid != wait(&i)) /// 等待子进程结束
 			/* nothing */;
-	while (1) {
+	while (1) { /// 然后又重新刚才步骤，即一直处于shell中
 		if ((pid=fork())<0) {
 			printf("Fork failed in init\r\n");
 			continue;
