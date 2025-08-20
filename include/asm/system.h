@@ -31,10 +31,10 @@ __asm__ ("movw %%dx,%%ax\n\t" \
 	"d" ((char *) (addr)),"a" (0x00080000))
 
 #define set_intr_gate(n,addr) \
-	_set_gate(&idt[n],14,0,addr) // type=14 表示中断门，dpl=0 表示特权级0，n表示中断号
+	_set_gate(&idt[n],14,0,addr) // type=14 表示中断门，dpl=0 表示特权级0，n表示中断号；x86规定通过中断门产生的中断会复位IF位，避免中断嵌套处理
 
 #define set_trap_gate(n,addr) \
-	_set_gate(&idt[n],15,0,addr) // type=15 表示陷阱门，dpl=0 表示特权级0
+	_set_gate(&idt[n],15,0,addr) // type=15 表示陷阱门，dpl=0 表示特权级0；x86规定通过陷阱门产生的中断不会改变IF
 
 #define set_system_gate(n,addr) \
 	_set_gate(&idt[n],15,3,addr) // type=15 表示陷阱门，dpl=3 表示特权级3，表示可以被所有特权级调用

@@ -312,26 +312,26 @@ void do_timer(long cpl)
 			sysbeepstop();
 
 	if (cpl)
-		current->utime++;
+		current->utime++; /// 进程在用户态运行时间+1
 	else
-		current->stime++;
+		current->stime++; /// 进程在内核态运行时间+1
 
 	if (next_timer) {
-		next_timer->jiffies--;
-		while (next_timer && next_timer->jiffies <= 0) {
+		next_timer->jiffies--; /// 只有头节点需要-1，每个定时器的jiffies是相对上一个的差值，也就是差值链表设计方式
+		while (next_timer && next_timer->jiffies <= 0) { /// jiffies减到0说明定时器到期，将触发定时器
 			void (*fn)(void);
 			
 			fn = next_timer->fn;
 			next_timer->fn = NULL;
-			next_timer = next_timer->next;
+			next_timer = next_timer->next; /// 然后头指针指向下一个定时器
 			(fn)();
 		}
 	}
 	if (current_DOR & 0xf0)
 		do_floppy_timer();
-	if ((--current->counter)>0) return;
+	if ((--current->counter)>0) return; /// 时间片-1，如果还有时间片直接返回，不触发下面的调度
 	current->counter=0;
-	if (!cpl) return;
+	if (!cpl) return; /// 只有用户态程序才会被调度程序切换，即内核态程序不可抢占
 	schedule();
 }
 

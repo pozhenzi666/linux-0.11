@@ -92,7 +92,7 @@ struct task_struct {
 	unsigned short uid,euid,suid;
 	unsigned short gid,egid,sgid;
 	long alarm;
-	long utime,stime,cutime,cstime,start_time;
+	long utime,stime,cutime,cstime,start_time; /// utime 进程用户态运行时间 stime 进程内核态运行时间
 	unsigned short used_math;
 /* file system info */
 	int tty;		/* -1 if no tty, so it must be signed */

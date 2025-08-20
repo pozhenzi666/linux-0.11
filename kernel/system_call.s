@@ -174,23 +174,23 @@ device_not_available:
 
 .align 2
 timer_interrupt:
-	push %ds		# save ds,es and put kernel data space
+	push %ds		# save ds,es and put kernel data space /// 保存被打断的寄存器ds/es/fs
 	push %es		# into them. %fs is used by _system_call
 	push %fs
-	pushl %edx		# we save %eax,%ecx,%edx as gcc doesn't
+	pushl %edx		# we save %eax,%ecx,%edx as gcc doesn't /// 根据C语言调用惯例(cdecl)，eax/ecx/edx寄存器值由caller-saved
 	pushl %ecx		# save those across function calls. %ebx
-	pushl %ebx		# is saved as we use that in ret_sys_call
+	pushl %ebx		# is saved as we use that in ret_sys_call /// ebx寄存器因为后面ret_from_sys_call使用到，因此提前保护
 	pushl %eax
-	movl $0x10,%eax
-	mov %ax,%ds
+	movl $0x10,%eax # /// 0x10 内核数据段选择子
+	mov %ax,%ds 
 	mov %ax,%es
-	movl $0x17,%eax
+	movl $0x17,%eax # /// 0x17是当前进程用户数据段选择子(RPL=3)
 	mov %ax,%fs
 	incl jiffies
-	movb $0x20,%al		# EOI to interrupt controller #1
-	outb %al,$0x20
-	movl CS(%esp),%eax
-	andl $3,%eax		# %eax is CPL (0 or 3, 0=supervisor)
+	movb $0x20,%al		# EOI to interrupt controller #1 /// 手动发送EOI结束中断给8259A芯片，允许中断控制器继续排队新的相同IRQ
+	outb %al,$0x20 # /// （EOI只是解除中断控制器的忙状态，实际能否进入取决于IF与优先级，此时IF被中断门自动清零了）
+	movl CS(%esp),%eax # /// CS=0x20，刚好是栈中cs偏移，整个栈包括cpu自动压的以及刚好压入的，偏移值如 eax=0,ebx=4 ecx=8 edx=0xc fs=0x10 ... cs=0x20
+	andl $3,%eax		# %eax is CPL (0 or 3, 0=supervisor) /// andl $3,%eax将取出eax寄存器低2位，eax是cs即内核或用户段选择子，低2位也就是CPL值
 	pushl %eax
 	call do_timer		# 'do_timer(long CPL)' does everything from
 	addl $4,%esp		# task switching to accounting ...
