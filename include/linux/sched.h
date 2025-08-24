@@ -80,18 +80,18 @@ struct tss_struct {
 struct task_struct {
 /* these are hardcoded - don't touch */
 	long state;	/* -1 unrunnable, 0 runnable, >0 stopped */
-	long counter;
-	long priority;
-	long signal;
+	long counter; /// 进程运行时间片，每次do_timer中对当前运行进程counter减1
+	long priority; /// 取值范围1~15，初始值=15，通过sys_nice系统调用进行调整
+	long signal; /// 进程信号列表,位值为1表示产生对应信号
 	struct sigaction sigaction[32];
-	long blocked;	/* bitmap of masked signals */
+	long blocked;	/* bitmap of masked signals */ /// 进程阻塞信号，bitmap表示，位值为1表示该信号被阻塞
 /* various fields */
 	int exit_code;
 	unsigned long start_code,end_code,end_data,brk,start_stack;
 	long pid,father,pgrp,session,leader;
 	unsigned short uid,euid,suid;
 	unsigned short gid,egid,sgid;
-	long alarm;
+	long alarm; /// 任务alarm定时值，单位ticks，当该值小于jiffies时说明alarm到期，需要触发sig_alarm信号了
 	long utime,stime,cutime,cstime,start_time; /// utime 进程用户态运行时间 stime 进程内核态运行时间
 	unsigned short used_math;
 /* file system info */

@@ -21,7 +21,7 @@ int sys_ssetmask(int newmask)
 {
 	int old=current->blocked;
 
-	current->blocked = newmask & ~(1<<(SIGKILL-1));
+	current->blocked = newmask & ~(1<<(SIGKILL-1)); /// sigkill信号不能被阻塞
 	return old;
 }
 

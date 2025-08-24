@@ -59,7 +59,7 @@ static union task_union init_task = {INIT_TASK,};
 
 long volatile jiffies=0;
 long startup_time=0;
-struct task_struct *current = &(init_task.task);
+struct task_struct *current = &(init_task.task); /// 当前任务，在每次switch_to进程切换时，替换为新任务
 struct task_struct *last_task_used_math = NULL;
 
 struct task_struct * task[NR_TASKS] = {&(init_task.task), };
@@ -107,15 +107,15 @@ void schedule(void)
 	struct task_struct ** p;
 
 /* check alarm, wake up any interruptible tasks that have got a signal */
-
+	/// 从后往前遍历，最终p>&FIRST_TASK，会跳过task[0]，即不会检查idle进程
 	for(p = &LAST_TASK ; p > &FIRST_TASK ; --p)
 		if (*p) {
-			if ((*p)->alarm && (*p)->alarm < jiffies) {
+			if ((*p)->alarm && (*p)->alarm < jiffies) { /// 如果任务设置了alarm(sys_alarm设置)，并且alarm值小于jiffies，说明alarm到期，需要触发信号
 					(*p)->signal |= (1<<(SIGALRM-1));
 					(*p)->alarm = 0;
 				}
 			if (((*p)->signal & ~(_BLOCKABLE & (*p)->blocked)) &&
-			(*p)->state==TASK_INTERRUPTIBLE)
+			(*p)->state==TASK_INTERRUPTIBLE) /// 如果信号位图中除被阻塞的信号外还有其他信号，并且任务处于可中断状态，则置任务为就绪状态
 				(*p)->state=TASK_RUNNING;
 		}
 
@@ -129,14 +129,14 @@ void schedule(void)
 		while (--i) {
 			if (!*--p)
 				continue;
-			if ((*p)->state == TASK_RUNNING && (*p)->counter > c)
+			if ((*p)->state == TASK_RUNNING && (*p)->counter > c) /// 从后往前遍历，找出就绪态任务中counter值最大的那个，说明它运行时间不长
 				c = (*p)->counter, next = i;
 		}
 		if (c) break;
-		for(p = &LAST_TASK ; p > &FIRST_TASK ; --p)
+		for(p = &LAST_TASK ; p > &FIRST_TASK ; --p) /// 走到这说明所有running状态进程时间片都已经用完，那么对所有进程（包括睡眠状态）重新计算每个人物时间片值counter
 			if (*p)
-				(*p)->counter = ((*p)->counter >> 1) +
-						(*p)->priority;
+				(*p)->counter = ((*p)->counter >> 1) + /// 时间片计算公式为 counter = counter / 2 + priority，更新counter后按上面逻辑重新pick任务，直到找到为止
+						(*p)->priority; /// 该计算公式保证了优先级高的任务优先调度
 	}
 	switch_to(next);
 }
